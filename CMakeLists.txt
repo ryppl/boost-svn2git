@@ -7,6 +7,10 @@
 cmake_minimum_required(VERSION 2.8.7 FATAL_ERROR)
 project(BoostSVN2GIT)
 
+set(BOOST_SVN_REPOSITORY "/home/svnsync/svn/boost" CACHE PATH
+  "path to (the local mirror of) Boost's Subversion repository"
+  )
+
 set(ruleset_file "${CMAKE_BINARY_DIR}/svn2git-ruleset")
 file(REMOVE "${ruleset_file}")
 
@@ -22,12 +26,9 @@ add_custom_command(OUTPUT "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
   DEPENDS "${CMAKE_BINARY_DIR}/svn2git/Makefile"
   WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/svn2git"
   )
-add_custom_target(svn2git
-  DEPENDS "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
-  )
 
 # collect all rulesets
-file(GLOB rulesets
+file(GLOB rulesets RELATIVE "${CMAKE_BINARY_DIR}"
   "${CMAKE_SOURCE_DIR}/rulesets/libs/*"
   "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
   )
@@ -49,11 +50,36 @@ file(APPEND "${ruleset_file}"
   "end repository\n\n"
   "match /\n"
   "  repository svn2git-fallback\n"
+  "  branch master\n"
+  "end match\n\n"
+  "match /\n"
   "end match\n\n"
   )
 list(APPEND repositories "svn2git-fallback")
 
-# TODO: perform conversion
+# clean
+file(REMOVE_RECURSE "${CMAKE_BINARY_DIR}/conversion")
+file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/conversion")
 
-# TODO: push all ${repositories} to bitbucket and github
+# perform conversion
+add_custom_target(conversion
+  COMMAND 
+    "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
+    --rules "${ruleset_file}"
+    --resume-from 80000             # TODO: decrease this!!
+    "${BOOST_SVN_REPOSITORY}"
+  DEPENDS
+    "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
+  WORKING_DIRECTORY
+    "${CMAKE_BINARY_DIR}/conversion"
+  )
+
+# push all ${repositories} to bitbucket
+foreach(repo IN LISTS repositories)
+  add_custom_target(push_${repo} ALL
+    COMMAND git push --mirror git@bitbucket.org:boostorg/${repo}.git
+    DEPENDS conversion
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/conversion/${repo}"
+    )
+endforeach()
 

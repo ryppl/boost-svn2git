@@ -4,6 +4,6 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 
-declare LIBRARY=algorithm
-declare REPOSITORY=algorithm
+declare LIBRARY=program_options
+declare REPOSITORY=program_options
 include ../common-libs
