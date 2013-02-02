@@ -1,0 +1,66 @@
+# Created by Daniel Pfeifer <daniel@pfeifer-mail.de>
+#
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt
+
+match /trunk/libs/${LIBRARY}/
+  min revision 38328
+  repository ${LIBRARY}
+  branch master
+end match
+match /trunk/boost/${LIBRARY}/
+  min revision 38328
+  repository ${LIBRARY}
+  prefix include/boost/${LIBRARY}/
+  branch master
+end match
+
+match /devel/libs/${LIBRARY}/
+  min revision 38327
+  max revision 38327
+  repository ${LIBRARY}
+  branch master
+end match
+match /devel/boost/${LIBRARY}/
+  min revision 38327
+  max revision 38327
+  repository ${LIBRARY}
+  prefix include/boost/${LIBRARY}/
+  branch master
+end match
+
+match /trunk/boost/libs/${LIBRARY}/
+  max revision 38326
+  repository ${LIBRARY}
+  branch master
+end match
+match /trunk/boost/boost/${LIBRARY}/
+  max revision 38326
+  repository ${LIBRARY}
+  prefix include/boost/${LIBRARY}/
+  branch master
+end match
+
+match /branches/release/libs/${LIBRARY}/
+  min revision 40341
+  repository ${LIBRARY}
+  branch release
+end match
+match /branches/release/boost/${LIBRARY}/
+  min revision 40341
+  repository ${LIBRARY}
+  prefix include/boost/${LIBRARY}/
+  branch release
+end match
+
+match /tags/release/Boost_1_([4-5][0-9])_([0-9])/libs/${LIBRARY}/
+  repository ${LIBRARY}
+  branch refs/tags/1.\1.\2
+end match
+match /tags/release/Boost_1_([4-5][0-9])_([0-9])/boost/${LIBRARY}/
+  repository ${LIBRARY}
+  prefix include/boost/${LIBRARY}/
+  branch refs/tags/1.\1.\2
+end match
+
