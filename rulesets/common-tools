@@ -10,14 +10,14 @@ match /trunk/tools/${TOOL}/
   branch master
 end match
 
-match /devel/libs/${TOOL}/
+match /devel/tools/${TOOL}/
   min revision 38327
   max revision 38327
   repository ${REPOSITORY}
   branch master
 end match
 
-match /trunk/boost/libs/${TOOL}/
+match /trunk/boost/tools/${TOOL}/
   max revision 38326
   repository ${REPOSITORY}
   branch master
