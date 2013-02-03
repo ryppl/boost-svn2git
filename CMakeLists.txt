@@ -69,7 +69,7 @@ add_custom_target(conversion
     $<TARGET_FILE:svn2git>
     --identity-map "${CMAKE_SOURCE_DIR}/authors.txt"
     --rules "${ruleset_file}"
-    --resume-from 56354             # TODO: find reason for segfault !!
+    --resume-from 6
     "${BOOST_SVN_REPOSITORY}"
   DEPENDS
     svn2git
