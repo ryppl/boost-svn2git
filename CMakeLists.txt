@@ -31,8 +31,16 @@ add_custom_command(OUTPUT "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
 file(GLOB rulesets RELATIVE "${CMAKE_BINARY_DIR}"
   "${CMAKE_SOURCE_DIR}/rulesets/libs/*"
   "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
+  "${CMAKE_SOURCE_DIR}/rulesets/website"
   )
 list(SORT rulesets)
+
+# make sure that sandbox is at the end of the list!
+# we want to make sure that the rulesets of libraries with history in the
+# sandbox take higher precedence.
+list(APPEND rulesets
+  "${CMAKE_SOURCE_DIR}/rulesets/sandbox"
+  )
 
 set(repositories)
 foreach(ruleset IN LISTS rulesets)
