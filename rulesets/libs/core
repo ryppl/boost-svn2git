@@ -9,12 +9,6 @@ match /trunk/libs/detail/
   repository core
   branch master
 end match
-match /trunk/boost/version.hpp
-  min revision 38328
-  repository core
-  prefix include/boost/
-  branch master
-end match
 
 match /devel/libs/detail/
   min revision 38327
@@ -22,23 +16,10 @@ match /devel/libs/detail/
   repository core
   branch master
 end match
-match /devel/boost/version.hpp
-  min revision 38327
-  max revision 38327
-  repository core
-  prefix include/boost/
-  branch master
-end match
 
 match /trunk/boost/libs/detail/
   max revision 38326
   repository core
-  branch master
-end match
-match /trunk/boost/boost/version.hpp
-  max revision 38326
-  repository core
-  prefix include/boost/
   branch master
 end match
 
