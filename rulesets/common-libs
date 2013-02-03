@@ -4,6 +4,8 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 
+# TODO: following the git-flow convention, this should be called 'develop'
+
 match /trunk/libs/${LIBRARY}/
   min revision 38328
   repository ${REPOSITORY}
@@ -42,3 +44,15 @@ match /trunk/boost/boost/${LIBRARY}/
   branch master
 end match
 
+# remember: this is the release _preparation_ branch, not git-flow master!
+match /branches/release/libs/${LIBRARY}/
+  min revision 40341
+  repository ${REPOSITORY}
+  branch release
+end match
+match /branches/release/boost/${LIBRARY}/
+  min revision 40341
+  repository ${REPOSITORY}
+  prefix include/boost/${LIBRARY}/
+  branch release
+end match
