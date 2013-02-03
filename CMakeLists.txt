@@ -11,6 +11,14 @@ set(BOOST_SVN_REPOSITORY "/home/svnsync/svn/boost" CACHE PATH
   "path to (the local mirror of) Boost's Subversion repository"
   )
 
+set(BOOST_GIT_REPOSITORY "/mnt/ramdisk/conversion" CACHE PATH
+  "where to generate the local Git repositories"
+  )
+
+# clean
+file(REMOVE_RECURSE "${BOOST_GIT_REPOSITORY}")
+file(MAKE_DIRECTORY "${BOOST_GIT_REPOSITORY}")
+
 set(ruleset_file "${CMAKE_BINARY_DIR}/svn2git-ruleset")
 file(REMOVE "${ruleset_file}")
 
@@ -66,10 +74,6 @@ file(APPEND "${ruleset_file}"
   )
 list(APPEND repositories "svn2git-fallback")
 
-# clean
-file(REMOVE_RECURSE "${CMAKE_BINARY_DIR}/conversion")
-file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/conversion")
-
 # perform conversion
 add_custom_target(conversion
   COMMAND 
@@ -81,7 +85,7 @@ add_custom_target(conversion
   DEPENDS
     "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
   WORKING_DIRECTORY
-    "${CMAKE_BINARY_DIR}/conversion"
+    "${BOOST_GIT_REPOSITORY}"
   )
 
 # push all ${repositories} to bitbucket
@@ -89,7 +93,7 @@ foreach(repo IN LISTS repositories)
   add_custom_target(push_${repo} ALL
     COMMAND git push --mirror git@bitbucket.org:boostorg/${repo}.git
     DEPENDS conversion
-    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/conversion/${repo}"
+    WORKING_DIRECTORY "${BOOST_GIT_REPOSITORY}/${repo}"
     )
 endforeach()
 
