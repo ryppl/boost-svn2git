@@ -4,6 +4,41 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 
-declare LIBRARY=core
-declare REPOSITORY=core
-include ../common-libs
+match /trunk/libs/detail/
+  min revision 38328
+  repository core
+  branch master
+end match
+match /trunk/boost/version.hpp
+  min revision 38328
+  repository core
+  prefix include/boost/
+  branch master
+end match
+
+match /devel/libs/detail/
+  min revision 38327
+  max revision 38327
+  repository core
+  branch master
+end match
+match /devel/boost/version.hpp
+  min revision 38327
+  max revision 38327
+  repository core
+  prefix include/boost/
+  branch master
+end match
+
+match /trunk/boost/libs/detail/
+  max revision 38326
+  repository core
+  branch master
+end match
+match /trunk/boost/boost/version.hpp
+  max revision 38326
+  repository core
+  prefix include/boost/
+  branch master
+end match
+
