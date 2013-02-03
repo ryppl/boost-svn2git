@@ -6,4 +6,4 @@
 
 declare TOOL=build
 declare REPOSITORY=build
-include ../common-libs
+include ../common-tools

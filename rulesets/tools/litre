@@ -6,4 +6,4 @@
 
 declare TOOL=litre
 declare REPOSITORY=litre
-include ../common-libs
+include ../common-tools

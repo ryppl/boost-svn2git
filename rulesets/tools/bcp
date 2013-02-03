@@ -6,4 +6,4 @@
 
 declare TOOL=bcp
 declare REPOSITORY=bcp
-include ../common-libs
+include ../common-tools

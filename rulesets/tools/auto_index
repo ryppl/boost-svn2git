@@ -6,4 +6,4 @@
 
 declare TOOL=auto_index
 declare REPOSITORY=auto_index
-include ../common-libs
+include ../common-tools

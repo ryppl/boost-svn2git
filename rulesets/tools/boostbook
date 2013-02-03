@@ -6,4 +6,4 @@
 
 declare TOOL=boostbook
 declare REPOSITORY=boostbook
-include ../common-libs
+include ../common-tools

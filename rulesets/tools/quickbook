@@ -6,4 +6,4 @@
 
 declare TOOL=quickbook
 declare REPOSITORY=quickbook
-include ../common-libs
+include ../common-tools

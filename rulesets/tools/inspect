@@ -6,4 +6,4 @@
 
 declare TOOL=inspect
 declare REPOSITORY=inspect
-include ../common-libs
+include ../common-tools
