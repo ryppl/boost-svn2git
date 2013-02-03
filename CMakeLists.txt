@@ -79,7 +79,7 @@ add_custom_target(conversion
 # push all ${repositories} to bitbucket
 foreach(repo IN LISTS repositories)
   add_custom_target(push_${repo} ALL
-    COMMAND if [ ! -e .git/refs/heads/master ]; then git branch master ; fi && git push --mirror git@bitbucket.org:boostorg/${repo}.git
+    COMMAND git push --mirror git@bitbucket.org:boostorg/${repo}.git
     DEPENDS conversion
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/conversion/${repo}"
     )
