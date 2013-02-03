@@ -7,6 +7,8 @@
 cmake_minimum_required(VERSION 2.8.7 FATAL_ERROR)
 project(BoostSVN2GIT)
 
+add_subdirectory(svn2git)
+
 set(BOOST_SVN_REPOSITORY "/home/svnsync/svn/boost" CACHE PATH
   "path to (the local mirror of) Boost's Subversion repository"
   )
@@ -21,19 +23,6 @@ file(MAKE_DIRECTORY "${BOOST_GIT_REPOSITORY}")
 
 set(ruleset_file "${CMAKE_BINARY_DIR}/svn2git-ruleset")
 file(REMOVE "${ruleset_file}")
-
-# build svn2git
-find_package(Qt4 REQUIRED QtCore)
-file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/svn2git")
-add_custom_command(OUTPUT "${CMAKE_BINARY_DIR}/svn2git/Makefile"
-  COMMAND ${QT_QMAKE_EXECUTABLE} "${CMAKE_SOURCE_DIR}/svn2git"
-  WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/svn2git"
-  )
-add_custom_command(OUTPUT "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
-  COMMAND make
-  DEPENDS "${CMAKE_BINARY_DIR}/svn2git/Makefile"
-  WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/svn2git"
-  )
 
 # collect all rulesets
 file(GLOB rulesets RELATIVE "${CMAKE_BINARY_DIR}"
@@ -76,14 +65,14 @@ list(APPEND repositories "svn2git-fallback")
 
 # perform conversion
 add_custom_target(conversion
-  COMMAND 
-    "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
+  COMMAND
+    $<TARGET_FILE:svn2git>
     --identity-map "${CMAKE_SOURCE_DIR}/authors.txt"
     --rules "${ruleset_file}"
     --resume-from 56354             # TODO: find reason for segfault !!
     "${BOOST_SVN_REPOSITORY}"
   DEPENDS
-    "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
+    svn2git
   WORKING_DIRECTORY
     "${BOOST_GIT_REPOSITORY}"
   )
