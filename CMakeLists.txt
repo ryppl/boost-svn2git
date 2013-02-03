@@ -32,6 +32,7 @@ file(GLOB rulesets RELATIVE "${CMAKE_BINARY_DIR}"
   "${CMAKE_SOURCE_DIR}/rulesets/libs/*"
   "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
   )
+list(SORT rulesets)
 
 set(repositories)
 foreach(ruleset IN LISTS rulesets)
@@ -65,8 +66,9 @@ file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/conversion")
 add_custom_target(conversion
   COMMAND 
     "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
+    --identity-map "${CMAKE_SOURCE_DIR}/authors.txt"
     --rules "${ruleset_file}"
-    --resume-from 80000             # TODO: decrease this!!
+    --resume-from 56354             # TODO: find reason for segfault !!
     "${BOOST_SVN_REPOSITORY}"
   DEPENDS
     "${CMAKE_BINARY_DIR}/svn2git/svn-all-fast-export"
