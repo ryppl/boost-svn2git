@@ -1,3 +1,0 @@
-[submodule "svn2git"]
-	path = svn2git
-	url = git@github.com:purpleKarrot/svn2git.git
