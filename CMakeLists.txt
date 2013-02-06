@@ -28,7 +28,7 @@ add_custom_command(OUTPUT "${repositories_setup}"
   COMMAND ${CMAKE_COMMAND} -E remove_directory "${BOOST_GIT_REPOSITORY}"
   COMMAND ${CMAKE_COMMAND} -E make_directory "${BOOST_GIT_REPOSITORY}"
   COMMAND ${CMAKE_COMMAND} -E touch "${repositories_setup}"
-  DEPENDS ${ruleset_files}
+  DEPENDS ${ruleset_files} svn2git
   COMMENT "Rulesets changed. Cleaning temporary repositories."
   )
 
@@ -82,7 +82,6 @@ add_custom_target(conversion
     --rules "${ruleset_file}"
     "${BOOST_SVN_REPOSITORY}"
   DEPENDS
-    svn2git
     ${repositories_setup}
   WORKING_DIRECTORY
     "${BOOST_GIT_REPOSITORY}"
