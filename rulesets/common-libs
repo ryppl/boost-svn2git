@@ -56,3 +56,13 @@ match /branches/release/boost/${LIBRARY}/
   prefix include/boost/${LIBRARY}/
   branch release
 end match
+
+match /tags/release/([^/]+)/libs/${LIBRARY}/
+  repository ${REPOSITORY}
+  branch refs/tags/release/\1
+end match
+match /tags/release/([^/]+)/boost/${LIBRARY}/
+  repository ${REPOSITORY}
+  prefix include/boost/${LIBRARY}/
+  branch refs/tags/release/\1
+end match
