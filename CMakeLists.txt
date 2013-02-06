@@ -78,6 +78,7 @@ list(APPEND repositories "svn2git-fallback")
 add_custom_target(conversion
   COMMAND
     $<TARGET_FILE:svn2git>
+    --add-metadata
     --identity-map "${CMAKE_SOURCE_DIR}/authors.txt"
     --rules "${ruleset_file}"
     "${BOOST_SVN_REPOSITORY}"
