@@ -4,10 +4,26 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 
-match /website/
+# TODO: call this branch "gh-pages"? Then Github may run the Boost website!
+match /website/public_html/live/
   repository website
+  min revision 183
   branch master
 end match
 
-# TODO: 'public_html/beta' and 'public_html/live' want to be branches
-# TODO: make a gh-pages branch? Then Github may run the Boost website!
+match /website/public_html/beta/
+  repository website
+  min revision 183
+  branch develop
+end match
+
+match /website/workplace/
+  repository website
+  branch workplace
+end match
+
+match /website/
+  repository website
+  max revision 137
+  branch develop
+end match
