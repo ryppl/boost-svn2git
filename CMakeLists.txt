@@ -18,11 +18,19 @@ set(BOOST_GIT_REPOSITORY "/mnt/ramdisk/conversion" CACHE PATH
   )
 
 # clean
-file(REMOVE_RECURSE "${BOOST_GIT_REPOSITORY}")
-file(MAKE_DIRECTORY "${BOOST_GIT_REPOSITORY}")
-
-set(ruleset_file "${CMAKE_BINARY_DIR}/svn2git-ruleset")
-file(REMOVE "${ruleset_file}")
+file(GLOB ruleset_files
+  "${CMAKE_SOURCE_DIR}/rulesets/libs/*"
+  "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
+  "${CMAKE_SOURCE_DIR}/rulesets/website"
+  )
+set(repositories_setup "${BOOST_GIT_REPOSITORY}/_setup")
+add_custom_command(OUTPUT "${repositories_setup}"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "${BOOST_GIT_REPOSITORY}"
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${BOOST_GIT_REPOSITORY}"
+  COMMAND ${CMAKE_COMMAND} -E touch "${repositories_setup}"
+  DEPENDS ${ruleset_files}
+  COMMENT "Rulesets changed. Cleaning temporary repositories."
+  )
 
 # collect all rulesets
 file(GLOB rulesets RELATIVE "${CMAKE_BINARY_DIR}"
@@ -38,6 +46,9 @@ list(SORT rulesets)
 set(sandbox "${CMAKE_SOURCE_DIR}/rulesets/sandbox")
 file(RELATIVE_PATH sandbox "${CMAKE_BINARY_DIR}" "${sandbox}")
 list(APPEND rulesets "${sandbox}")
+
+set(ruleset_file "${CMAKE_BINARY_DIR}/svn2git-ruleset")
+file(REMOVE "${ruleset_file}")
 
 set(repositories)
 foreach(ruleset IN LISTS rulesets)
@@ -69,10 +80,10 @@ add_custom_target(conversion
     $<TARGET_FILE:svn2git>
     --identity-map "${CMAKE_SOURCE_DIR}/authors.txt"
     --rules "${ruleset_file}"
-    --resume-from 6
     "${BOOST_SVN_REPOSITORY}"
   DEPENDS
     svn2git
+    ${repositories_setup}
   WORKING_DIRECTORY
     "${BOOST_GIT_REPOSITORY}"
   )
