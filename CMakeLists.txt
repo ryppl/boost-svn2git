@@ -23,12 +23,8 @@ else()
 endif()
 
 # clean
-file(GLOB ruleset_files
-  "${CMAKE_SOURCE_DIR}/rulesets/libs/*"
-  "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
-  "${CMAKE_SOURCE_DIR}/rulesets/website"
-  )
 set(repositories_setup "${git_repository}/_setup")
+file(GLOB ruleset_files "${CMAKE_SOURCE_DIR}/rulesets/*")
 add_custom_command(OUTPUT "${repositories_setup}"
   COMMAND ${CMAKE_COMMAND} -E remove_directory "${git_repository}"
   COMMAND ${CMAKE_COMMAND} -E make_directory "${git_repository}"
