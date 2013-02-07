@@ -37,7 +37,7 @@ add_custom_command(OUTPUT "${repositories_setup}"
 file(GLOB rulesets RELATIVE "${CMAKE_BINARY_DIR}"
   "${CMAKE_SOURCE_DIR}/rulesets/libs/*"
   "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
-  "${CMAKE_SOURCE_DIR}/rulesets/recurse"
+# "${CMAKE_SOURCE_DIR}/rulesets/recurse"
   "${CMAKE_SOURCE_DIR}/rulesets/website"
   )
 list(SORT rulesets)
