@@ -57,12 +57,22 @@ match /branches/release/boost/${LIBRARY}/
   branch release
 end match
 
-match /tags/release/([^/]+)/libs/${LIBRARY}/
+match /tags/(VERSION|Version|version)_(\d)\D(\d+)\D(\d+)/libs/${LIBRARY}/
   repository ${REPOSITORY}
-  branch refs/tags/release/\1
+  branch refs/tags/\2.\3.\4
+end match
+match /tags/(VERSION|Version|version)_(\d)\D(\d+)\D(\d+)/boost/${LIBRARY}/
+  repository ${REPOSITORY}
+  prefix include/boost/${LIBRARY}/
+  branch refs/tags/\2.\3.\4
+end match
+
+match /tags/release/(Boost|release|VERSION|Version|version)_(\d)\D(\d+)\D(\d+)/libs/${LIBRARY}/
+  repository ${REPOSITORY}
+  branch refs/tags/\2.\3.\4
 end match
 match /tags/release/([^/]+)/boost/${LIBRARY}/
   repository ${REPOSITORY}
   prefix include/boost/${LIBRARY}/
-  branch refs/tags/release/\1
+  branch refs/tags/\2.\3.\4
 end match

@@ -7,13 +7,13 @@
 # TODO: call this branch "gh-pages"? Then Github may run the Boost website!
 match /website/public_html/live/
   repository website
-  min revision 183
+  min revision 138
   branch master
 end match
 
 match /website/public_html/beta/
   repository website
-  min revision 183
+  min revision 138
   branch develop
 end match
 
