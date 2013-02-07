@@ -64,7 +64,7 @@ end match
 match /tags/(VERSION|Version|version)_(\d)\D(\d+)\D(\d+)/boost/${LIBRARY}/
   repository ${REPOSITORY}
   prefix include/boost/${LIBRARY}/
-  branch refs/tags/\2.\3.\4
+  branch tags/\2.\3.\4
 end match
 
 match /tags/release/(Boost|release|VERSION|Version|version)_(\d)\D(\d+)\D(\d+)/libs/${LIBRARY}/
@@ -74,5 +74,5 @@ end match
 match /tags/release/([^/]+)/boost/${LIBRARY}/
   repository ${REPOSITORY}
   prefix include/boost/${LIBRARY}/
-  branch refs/tags/\2.\3.\4
+  branch tags/\2.\3.\4
 end match

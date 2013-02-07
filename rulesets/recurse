@@ -4,6 +4,10 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 
+match /branches/release/
+  action recurse
+end match
+
 match /tags/(VERSION|Version|version)_(\d)\D(\d+)\D(\d+)/
   action recurse
 end match
