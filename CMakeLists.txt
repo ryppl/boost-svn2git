@@ -9,13 +9,18 @@ project(BoostSVN2GIT)
 
 add_subdirectory(svn2git)
 
-set(BOOST_SVN_REPOSITORY "/home/svnsync/svn/boost" CACHE PATH
-  "path to (the local mirror of) Boost's Subversion repository"
-  )
+if(NOT BOOST_SVN)
+  message(FATAL_ERROR "Please set BOOST_SVN to Boost's Subversion repository")
+endif()
 
-set(BOOST_GIT_REPOSITORY "/mnt/ramdisk/conversion" CACHE PATH
-  "where to generate the local Git repositories"
-  )
+if(RAMDISK)
+  set(git_repository "${RAMDISK}/conversion")
+  set(svn_repository "${RAMDISK}/boost_svn")
+  file(COPY "${BOOST_SVN}/" DESTINATION "${svn_repository}")
+else()
+  set(git_repository "${CMAKE_BINARY_DIR}/conversion")
+  set(svn_repository "${BOOST_SVN}")
+endif()
 
 # clean
 file(GLOB ruleset_files
@@ -23,10 +28,10 @@ file(GLOB ruleset_files
   "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
   "${CMAKE_SOURCE_DIR}/rulesets/website"
   )
-set(repositories_setup "${BOOST_GIT_REPOSITORY}/_setup")
+set(repositories_setup "${git_repository}/_setup")
 add_custom_command(OUTPUT "${repositories_setup}"
-  COMMAND ${CMAKE_COMMAND} -E remove_directory "${BOOST_GIT_REPOSITORY}"
-  COMMAND ${CMAKE_COMMAND} -E make_directory "${BOOST_GIT_REPOSITORY}"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "${git_repository}"
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${git_repository}"
   COMMAND ${CMAKE_COMMAND} -E touch "${repositories_setup}"
   DEPENDS ${ruleset_files} svn2git
   COMMENT "Rulesets changed. Cleaning temporary repositories."
@@ -81,11 +86,11 @@ add_custom_target(conversion
     --add-metadata
     --identity-map "${CMAKE_SOURCE_DIR}/authors.txt"
     --rules "${ruleset_file}"
-    "${BOOST_SVN_REPOSITORY}"
+    "${svn_repository}"
   DEPENDS
     ${repositories_setup}
   WORKING_DIRECTORY
-    "${BOOST_GIT_REPOSITORY}"
+    "${git_repository}"
   )
 
 # push all ${repositories} to bitbucket
@@ -93,7 +98,7 @@ foreach(repo IN LISTS repositories)
   add_custom_target(push_${repo} ALL
     COMMAND git push --mirror git@bitbucket.org:boostorg/${repo}.git
     DEPENDS conversion
-    WORKING_DIRECTORY "${BOOST_GIT_REPOSITORY}/${repo}"
+    WORKING_DIRECTORY "${git_repository}/${repo}"
     )
 endforeach()
 
