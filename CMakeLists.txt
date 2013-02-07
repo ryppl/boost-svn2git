@@ -37,6 +37,7 @@ add_custom_command(OUTPUT "${repositories_setup}"
 file(GLOB rulesets RELATIVE "${CMAKE_BINARY_DIR}"
   "${CMAKE_SOURCE_DIR}/rulesets/libs/*"
   "${CMAKE_SOURCE_DIR}/rulesets/tools/*"
+  "${CMAKE_SOURCE_DIR}/rulesets/recurse"
   "${CMAKE_SOURCE_DIR}/rulesets/website"
   )
 list(SORT rulesets)
@@ -93,6 +94,7 @@ add_custom_target(conversion
 foreach(repo IN LISTS repositories)
   add_custom_target(push_${repo} ALL
     COMMAND git push --mirror git@bitbucket.org:boostorg/${repo}.git
+    COMMAND git push --mirror git@github.com:boostorg/${repo}.git
     DEPENDS conversion
     WORKING_DIRECTORY "${git_repository}/${repo}"
     )
