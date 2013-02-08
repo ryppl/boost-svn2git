@@ -93,8 +93,8 @@ add_custom_target(conversion
 # push all ${repositories} to bitbucket
 foreach(repo IN LISTS repositories)
   add_custom_target(push_${repo} ALL
-    COMMAND git push --mirror git@bitbucket.org:boostorg/${repo}.git
-    COMMAND git push --mirror git@github.com:boostorg/${repo}.git
+    COMMAND git push --quiet --progress --mirror git@bitbucket.org:boostorg/${repo}.git
+    COMMAND git push --quiet --progress --mirror git@github.com:boostorg/${repo}.git
     DEPENDS conversion
     WORKING_DIRECTORY "${git_repository}/${repo}"
     )
